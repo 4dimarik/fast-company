@@ -7,7 +7,7 @@ const Users=()=>{
 
     const formatPhrase = ()=>{
         if (users.length !==0){
-            return `${users.length} человек
+            return `${users.length} ${Utils.numeralsWithNouns(users.length,['человек', 'человека', 'человек'])}
 ${Utils.numeralsWithNouns(users.length,['тусанёт', 'тусанут', 'тусанёт'])} с тобой сегодня`
         } else {
             return `Никто с тобой не тусанёт`
@@ -29,7 +29,7 @@ ${Utils.numeralsWithNouns(users.length,['тусанёт', 'тусанут', 'т�
                 <th scope="col">Профессия</th>
                 <th scope="col">Встретился, раз</th>
                 <th scope="col">Оценка</th>
-                <th scope="col"></th>
+                <th scope="col"> </th>
             </tr>
             </thead>
             <tbody>
