@@ -4,21 +4,28 @@ import SearchStatus from './components/searchStatus'
 import api from "./api";
 
 export default function App() {
-    const [users, setUsers] = useState(api.users.fetchAll());
 
+    const [users, setUsers] = useState(api.users.fetchAll());
     const handleUserChange = (id)=>{
         setUsers(prevState => prevState.filter(user=>user._id !== id))
     }
-    const handleToggleBookmark = (id, status)=>{
-        setUsers(prevState => {
-                return prevState.map((user) => {
-                    if (user._id === id) {
-                        user.bookmark = !status
-                    }
-                    return user;
-                })
+    const handleToggleBookmark = (id)=>{
+        // setUsers(prevState => {
+        //         return prevState.map((user) => {
+        //             if (user._id === id) {
+        //                 user.bookmark = !user.bookmark
+        //             }
+        //             return user;
+        //         })
+        //     }
+        // )
+        const newState = users.map(user => {
+            if (user._id === id) {
+                user.bookmark = !user.bookmark
             }
-        )
+            return user;
+        });
+        setUsers(newState)
     }
     return (
         <div className="container my-2">

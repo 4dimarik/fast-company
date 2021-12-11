@@ -1,5 +1,6 @@
 import React from 'react';
 import Quality from './quality'
+import Bookmarks from './bookmarks'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 export default function user(props){
@@ -17,9 +18,7 @@ export default function user(props){
             <td>{user.completedMeetings}</td>
             <td>{user.rate}/5</td>
             <td>
-                <button type="button" className="btn btn-info" onClick={()=>handleToggleBookmark(user._id,user.bookmark)}>
-                    <i className={`${user.bookmark ? 'fas' : 'far'} fa-bookmark`}></i>
-                </button>
+                <Bookmarks id={user._id} bookmark={user.bookmark} handleToggleBookmark={handleToggleBookmark}/>
             </td>
             <td><button type="button" className="btn btn-sm btn-danger" onClick={()=>onDelete(user._id)}>Удалить</button></td>
         </tr>
