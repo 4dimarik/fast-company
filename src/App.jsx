@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import Users from './components/users';
-import SearchStatus from './components/searchStatus';
 import api from './api';
 
 export default function App() {
-  const [users, setUsers] = useState(api.users.default());
+  const [users, setUsers] = useState(api.users.fetchAll());
   const handleUserChange = (id) => {
     setUsers((prevState) => prevState.filter((user) => user._id !== id));
   };
@@ -15,7 +14,6 @@ export default function App() {
   };
   return (
     <div className="container my-2">
-      <SearchStatus usersCount={users.length} />
       <Users
         users={users}
         // favourites={favourites}
