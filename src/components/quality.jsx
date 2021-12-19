@@ -1,11 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const quality = (props)=>{
-    const {quality} = props;
-    return (
-        <div className={`badge d-inline bg-${quality.color} m-1`}>{quality.name}</div>
-    )
+export default function Quality({ quality }) {
+  return <div className={`badge d-inline bg-${quality.color} m-1`}>{quality.name}</div>;
 }
-
-export default quality;
-
+Quality.propTypes = {
+  quality: PropTypes.object.isRequired,
+};
