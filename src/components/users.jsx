@@ -28,13 +28,14 @@ export default function Users({ users: allUsers, handleUserChange, handleToggleB
     setSelectedProf(item);
   };
   const filtersUsers = selectedProf
-    ? allUsers.filter((user) => user.profession === selectedProf)
+    ? allUsers.filter((user) => user.profession.name === selectedProf.name)
     : allUsers;
   const itemsCount = filtersUsers.length;
   const userCrop = paginate(filtersUsers, currentPage, pageSize);
   const clearFilter = () => {
     setSelectedProf();
   };
+
   return (
     <div className="d-flex">
       {professions && (

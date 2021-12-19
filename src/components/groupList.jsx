@@ -2,7 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function GroupList({ items, valueProperty, contentProperty, onItemSelect, selectedItem }) {
-  return (
+  return Array.isArray(items) ? (
+    <ul className="list-group">
+      {items.map((item) => (
+        <li
+          key={item[valueProperty]}
+          className={`list-group-item ${item === selectedItem ? 'active' : ''} `}
+          onClick={() => onItemSelect(item)}
+          role="button"
+        >
+          {item[contentProperty]}
+        </li>
+      ))}
+    </ul>
+  ) : (
     <ul className="list-group">
       {Object.keys(items).map((item) => (
         <li
