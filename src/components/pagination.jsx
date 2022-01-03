@@ -35,7 +35,7 @@ export default function Pagination({ itemsCount, pageSize, onPageChange, current
             className="page-link"
             aria-label="Next"
             onClick={() => {
-              const page = currentPage - 1 < 1 ? 1 : (currentPage += 1);
+              const page = currentPage + 1 > pageCount ? pageCount : (currentPage += 1);
               return onPageChange(page);
             }}
           >

@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import User from './user';
+import _ from 'lodash';
 import Pagination from './pagination';
 import { paginate } from '../utilites';
 import GroupList from './groupList';
 import api from '../api/index';
 import SearchStatus from './searchStatus';
+import UsersTable from './usersTable';
 
-export default function Users({ users: allUsers, handleUserChange, handleToggleBookmark }) {
-  const pageSize = 2;
-
+export default function Users({ users: allUsers, ...rest }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
+  const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' });
+
+  const pageSize = 8;
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
@@ -27,15 +29,18 @@ export default function Users({ users: allUsers, handleUserChange, handleToggleB
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
   };
+  const handleSort = (item) => {
+    setSortBy(item);
+  };
   const filtersUsers = selectedProf
     ? allUsers.filter((user) => user.profession.name === selectedProf.name)
     : allUsers;
   const itemsCount = filtersUsers.length;
-  const userCrop = paginate(filtersUsers, currentPage, pageSize);
+  const sortedUsers = _.orderBy(filtersUsers, [sortBy.iter], [sortBy.order]);
+  const userCrop = paginate(sortedUsers, currentPage, pageSize);
   const clearFilter = () => {
     setSelectedProf();
   };
-
   return (
     <div className="d-flex">
       {professions && (
@@ -45,7 +50,11 @@ export default function Users({ users: allUsers, handleUserChange, handleToggleB
             items={professions}
             onItemSelect={handleProfessionSelect}
           />
-          <button type="button" className="btn btn-secondary mt-2" onClick={() => clearFilter()}>
+          <button
+            type="button"
+            className="btn btn-secondary mt-2"
+            onClick={() => clearFilter()}
+          >
             Очистить
           </button>
         </div>
@@ -53,29 +62,12 @@ export default function Users({ users: allUsers, handleUserChange, handleToggleB
       <div className="d-flex flex-column">
         <SearchStatus usersCount={itemsCount} />
         {itemsCount > 0 && (
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Имя</th>
-                <th scope="col">Качества</th>
-                <th scope="col">Профессия</th>
-                <th scope="col">Встретился, раз</th>
-                <th scope="col">Оценка</th>
-                <th scope="col">Избранное</th>
-                <th scope="col"> </th>
-              </tr>
-            </thead>
-            <tbody>
-              {userCrop.map((user) => (
-                <User
-                  key={user._id}
-                  user={user}
-                  onDelete={handleUserChange}
-                  handleToggleBookmark={handleToggleBookmark}
-                />
-              ))}
-            </tbody>
-          </table>
+          <UsersTable
+            users={userCrop}
+            onSort={handleSort}
+            currentSort={sortBy}
+            {...rest}
+          />
         )}
         <div className="d-flex justify-content-center">
           <Pagination
@@ -91,6 +83,4 @@ export default function Users({ users: allUsers, handleUserChange, handleToggleB
 }
 Users.propTypes = {
   users: PropTypes.array.isRequired,
-  handleUserChange: PropTypes.func.isRequired,
-  handleToggleBookmark: PropTypes.func.isRequired,
 };

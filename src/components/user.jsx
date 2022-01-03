@@ -1,30 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Quality from './quality';
-import Bookmarks from './bookmarks';
+import Bookmark from './bookmark';
 import '@fortawesome/fontawesome-free/css/all.css';
 
-export default function User({ user, onDelete, handleToggleBookmark }) {
+export default function User({
+  _id,
+  name,
+  qualities,
+  profession,
+  rate,
+  bookmark,
+  completedMeetings,
+  onDelete,
+  onToggleBookMark,
+}) {
   return (
     <tr>
-      <td>{user.name}</td>
+      <td>{name}</td>
       <td>
-        {user.qualities.map((quality) => (
-          <Quality key={quality._id} quality={quality} />
+        {qualities.map((quality) => (
+          <Quality key={quality._id} {...quality} />
         ))}
       </td>
-      <td>{user.profession.name}</td>
-      <td>{user.completedMeetings}</td>
-      <td>{`${user.rate}/5`}</td>
+      <td>{profession.name}</td>
+      <td>{completedMeetings}</td>
+      <td>{`${rate}/5`}</td>
       <td>
-        <Bookmarks
-          id={user._id}
-          bookmark={user.bookmark}
-          handleToggleBookmark={handleToggleBookmark}
-        />
+        <Bookmark status={bookmark} onClick={() => onToggleBookMark(_id)} />
       </td>
       <td>
-        <button type="button" className="btn btn-sm btn-danger" onClick={() => onDelete(user._id)}>
+        <button
+          type="button"
+          className="btn btn-sm btn-danger"
+          onClick={() => onDelete(_id)}
+        >
           Удалить
         </button>
       </td>
@@ -33,7 +43,13 @@ export default function User({ user, onDelete, handleToggleBookmark }) {
 }
 
 User.propTypes = {
-  user: PropTypes.object.isRequired,
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  qualities: PropTypes.array,
+  profession: PropTypes.object.isRequired,
+  completedMeetings: PropTypes.number.isRequired,
+  rate: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
-  handleToggleBookmark: PropTypes.func.isRequired,
+  bookmark: PropTypes.bool,
+  onToggleBookMark: PropTypes.func.isRequired,
 };

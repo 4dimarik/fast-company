@@ -9,7 +9,7 @@ export default function App() {
     api.users.fetchAll().then((data) => setUsers(data));
   }, []);
 
-  const handleUserChange = (id) => {
+  const handleDelete = (id) => {
     setUsers((prevState) => prevState.filter((user) => user._id !== id));
   };
   const handleToggleBookmark = (id) => {
@@ -18,14 +18,9 @@ export default function App() {
     );
   };
   return (
-    <div className="container my-2">
+    <div className="container-fluid my-2">
       {users && (
-        <Users
-          users={users}
-          // favourites={favourites}
-          handleUserChange={handleUserChange}
-          handleToggleBookmark={handleToggleBookmark}
-        />
+        <Users users={users} onDelete={handleDelete} onToggleBookMark={handleToggleBookmark} />
       )}
     </div>
   );
