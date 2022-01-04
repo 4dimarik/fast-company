@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Quality from './quality';
 import Bookmark from './bookmark';
-import '@fortawesome/fontawesome-free/css/all.css';
 
-export default function User({
+const User_ = ({
   _id,
   name,
   qualities,
@@ -14,7 +13,7 @@ export default function User({
   completedMeetings,
   onDelete,
   onToggleBookMark,
-}) {
+}) => {
   return (
     <tr>
       <td>{name}</td>
@@ -40,9 +39,9 @@ export default function User({
       </td>
     </tr>
   );
-}
+};
 
-User.propTypes = {
+User_.propTypes = {
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   qualities: PropTypes.array,
@@ -53,3 +52,4 @@ User.propTypes = {
   bookmark: PropTypes.bool,
   onToggleBookMark: PropTypes.func.isRequired,
 };
+export default User_;
