@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import TableHeader from './tableHeader';
 import TableBody from './tableBody';
 import Bookmark from './bookmark';
@@ -22,8 +23,14 @@ const UsersTable = ({
   const renderQualitiesListComponent = (user) => (
     <QualitiesList qualities={user.qualities} />
   );
+  const renderLinkComponent = (user) => (
+    <Link className="nav-link" to={`/users/${user._id}`}>
+      {user.name}
+    </Link>
+  );
   const columns = {
-    name: { path: 'name', name: 'Имя' },
+    // name: { path: 'name', name: 'Имя' },
+    name: { name: 'Имя', component: renderLinkComponent },
     qualities: { name: 'Качества', component: renderQualitiesListComponent },
     professions: { path: 'profession.name', name: 'Качества' },
     completedMeetings: { path: 'completedMeetings', name: 'Встретился, раз' },

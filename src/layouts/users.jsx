@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import Pagination from './pagination';
+import Pagination from '../components/pagination';
 import { paginate } from '../utilites';
-import GroupList from './groupList';
-import api from '../api/index';
-import SearchStatus from './searchStatus';
-import UsersTable from './usersTable';
+import GroupList from '../components/groupList';
+import api from '../api';
+import SearchStatus from '../components/searchStatus';
+import UsersTable from '../components/usersTable';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 const Users = () => {
@@ -101,7 +101,7 @@ const Users = () => {
       </div>
     );
   }
-  return 'loading...';
+  return 'Loading...';
 };
 
 export default Users;
