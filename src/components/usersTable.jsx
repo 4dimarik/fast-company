@@ -28,8 +28,16 @@ const UsersTable = ({
       {user.name}
     </Link>
   );
+  const renderDeleteBtnComponent = (user) => (
+    <button
+      type="button"
+      className="btn btn-sm btn-danger"
+      onClick={() => onDelete(user._id)}
+    >
+      Удалить
+    </button>
+  );
   const columns = {
-    // name: { path: 'name', name: 'Имя' },
     name: { name: 'Имя', component: renderLinkComponent },
     qualities: { name: 'Качества', component: renderQualitiesListComponent },
     professions: { path: 'profession.name', name: 'Качества' },
@@ -41,16 +49,7 @@ const UsersTable = ({
       component: renderBookmarkComponent,
     },
     delete: {
-      // eslint-disable-next-line react/no-unstable-nested-components
-      component: (user) => (
-        <button
-          type="button"
-          className="btn btn-sm btn-danger"
-          onClick={() => onDelete(user._id)}
-        >
-          Удалить
-        </button>
-      ),
+      component: renderDeleteBtnComponent,
     },
   };
   return (
