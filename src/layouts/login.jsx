@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import TextField from '../components/textField';
 import validator from '../utils/validator';
 
-const Login = (props) => {
+const Login = () => {
   const [data, setData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
 
@@ -89,7 +88,5 @@ const Login = (props) => {
     </div>
   );
 };
-
-Login.propTypes = {};
 
 export default Login;

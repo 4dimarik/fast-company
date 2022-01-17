@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import api from '../api';
 import QualitiesList from './qualitiesList';
 
-const User = (props) => {
+const User = () => {
   const history = useHistory();
   const [user, setUser] = useState();
   const id = useParams()[0];
