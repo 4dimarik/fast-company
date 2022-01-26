@@ -14,8 +14,7 @@ const Users = () => {
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' });
-  const [searchStr, setSearchStr] = useState('');
-  const [filter, setFilter] = useState();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const pageSize = 8;
 
@@ -36,59 +35,40 @@ const Users = () => {
     );
   };
 
-  const handleSearch = ({ target }) => {
-    const { value } = target;
-    setSearchStr(value);
+  const handleSearchQuery = ({ target }) => {
+    setSelectedProf(undefined);
+    setSearchQuery(target.value);
   };
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
   }, []);
+
   useEffect(() => {
-    setFilter({ type: 'profession', value: selectedProf });
     setCurrentPage(1);
-  }, [selectedProf]);
-  useEffect(() => {
-    setFilter({ type: 'search', value: searchStr });
-  }, [searchStr]);
+  }, [selectedProf, searchQuery]);
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
   const handleProfessionSelect = (item) => {
+    if (searchQuery !== '') setSearchQuery('');
     setSelectedProf(item);
   };
   const handleSort = (item) => {
     setSortBy(item);
   };
 
-  const filterUsers = (users, filter) => {
-    switch (filter.type) {
-      case 'profession': {
-        return users.filter(
-          (user) => user.profession.name === filter.value?.name
-        );
-      }
-      case 'search': {
-        const result =
-          filter.value !== ''
-            ? users.filter((user) =>
-                user.name
-                  .toLowerCase()
-                  .includes(filter.value.trim().toLowerCase())
-              )
-            : users;
-        return result.length === 0 ? users : result;
-      }
-      default:
-        return users;
-    }
-  };
-
   if (users) {
-    const filtersUsers = filter.value ? filterUsers(users, filter) : users;
-    const itemsCount = filtersUsers.length;
-    const sortedUsers = _.orderBy(filtersUsers, [sortBy.path], [sortBy.order]);
+    const filteredUsers = searchQuery
+      ? users.filter((user) =>
+          user.name.toLowerCase().includes(searchQuery.trim().toLowerCase())
+        )
+      : selectedProf
+      ? users.filter((user) => user.profession.name === selectedProf?.name)
+      : users;
+    const itemsCount = filteredUsers.length;
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
     const userCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () => {
       setSelectedProf();
@@ -113,23 +93,21 @@ const Users = () => {
         )}
         <div className="d-flex flex-column">
           <SearchStatus usersCount={itemsCount} />
+          <TextField
+            id="searchQuery"
+            name="searchQuery"
+            placeholder="searchQuery..."
+            value={searchQuery}
+            onChange={handleSearchQuery}
+          />
           {itemsCount > 0 && (
-            <>
-              <TextField
-                id="search"
-                name="search"
-                placeholder="Search..."
-                value={searchStr}
-                onChange={handleSearch}
-              />
-              <UsersTable
-                users={userCrop}
-                onSort={handleSort}
-                selectedSort={sortBy}
-                onDelete={handleDelete}
-                onToggleBookMark={handleToggleBookmark}
-              />
-            </>
+            <UsersTable
+              users={userCrop}
+              onSort={handleSort}
+              selectedSort={sortBy}
+              onDelete={handleDelete}
+              onToggleBookMark={handleToggleBookmark}
+            />
           )}
           <div className="d-flex justify-content-center">
             <Pagination

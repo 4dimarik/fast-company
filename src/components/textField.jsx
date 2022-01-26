@@ -39,8 +39,8 @@ const TextField = ({
             <i className={`far fa-eye${showPassword ? '-slash' : ''}`} />
           </button>
         )}
+        {error && <div className="invalid-feedback">{error}</div>}
       </div>
-      {error && <div className="invalid-feedback">{error}</div>}
     </div>
   );
 };
