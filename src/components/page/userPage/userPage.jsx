@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import api from '../api';
-import QualitiesList from './qualitiesList';
+import api from '../../../api';
+import QualitiesList from '../../ui/qualities/qualitiesList';
 
-const User = () => {
+const UserPage = () => {
   const history = useHistory();
   const [user, setUser] = useState();
   const id = useParams()[0];
@@ -38,6 +38,6 @@ const User = () => {
   return 'Loading...';
 };
 
-User.propTypes = {};
+UserPage.propTypes = {};
 
-export default User;
+export default UserPage;

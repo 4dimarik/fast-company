@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import TableHeader from './tableHeader';
-import TableBody from './tableBody';
-import Bookmark from './bookmark';
-import QualitiesList from './qualitiesList';
-import Table from './table';
+import Table from '../common/table';
+import Bookmark from '../common/bookmark';
+import Qualities from './qualities';
 
 const UsersTable = ({
   users,
@@ -21,7 +19,7 @@ const UsersTable = ({
     />
   );
   const renderQualitiesListComponent = (user) => (
-    <QualitiesList qualities={user.qualities} />
+    <Qualities qualities={user.qualities} />
   );
   const renderLinkComponent = (user) => (
     <Link className="nav-link" to={`/users/${user._id}`}>
@@ -53,10 +51,12 @@ const UsersTable = ({
     },
   };
   return (
-    <Table>
-      <TableHeader {...{ onSort, selectedSort, columns }} />
-      <TableBody {...{ columns, data: users }} />
-    </Table>
+    <Table
+      onSort={onSort}
+      selectedSort={selectedSort}
+      columns={columns}
+      data={users}
+    />
   );
 };
 

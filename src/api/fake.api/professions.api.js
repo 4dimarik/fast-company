@@ -16,10 +16,12 @@ export const professions = [
 ];
 const fetchAll = () =>
   new Promise((resolve) => {
-    window.setTimeout(() => {
-      resolve(professions);
+    // eslint-disable-next-line
+    window.setTimeout(function () {
+      resolve(professionsObject);
     }, 2000);
   });
+
 export default {
   fetchAll,
 };

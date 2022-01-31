@@ -4,7 +4,12 @@ export default function validator(data, config) {
     let statusValidate;
     switch (validateMethod) {
       case 'isRequired':
-        statusValidate = fieldData.trim() === '';
+        if (typeof fieldData === 'boolean') {
+          statusValidate = !fieldData;
+        } else {
+          statusValidate = fieldData.trim() === '';
+        }
+
         break;
       case 'isEmail': {
         const emailRegExp = /^\S+@\S+\.\S+$/g;
@@ -32,16 +37,18 @@ export default function validator(data, config) {
     if (statusValidate) return fieldConfig.message;
   }
   Object.keys(data).forEach((fieldName) => {
-    Object.keys(config[fieldName]).forEach((validateMethod) => {
-      const error = validate(
-        validateMethod,
-        data[fieldName],
-        config[fieldName][validateMethod]
-      );
-      if (error && !errors[fieldName]) {
-        errors[fieldName] = error;
-      }
-    });
+    if (config[fieldName])
+      Object.keys(config[fieldName]).forEach((validateMethod) => {
+        const error = validate(
+          validateMethod,
+          data[fieldName],
+          config[fieldName][validateMethod]
+        );
+        if (error && !errors[fieldName]) {
+          errors[fieldName] = error;
+        }
+      });
   });
+
   return errors;
 }

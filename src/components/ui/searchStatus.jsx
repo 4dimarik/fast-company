@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as Utils from '../utilites';
+import * as Utils from '../../utilites';
 
 const formatPhrase = (usersCount) => {
   if (usersCount !== 0) {
