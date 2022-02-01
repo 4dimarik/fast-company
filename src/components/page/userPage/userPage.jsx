@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import api from '../../../api';
 import QualitiesList from '../../ui/qualities/qualitiesList';
 
-const UserPage = () => {
+const UserPage = ({ userId }) => {
   const history = useHistory();
   const [user, setUser] = useState();
-  const id = useParams()[0];
 
-  api.users.getById(id).then((data) => {
-    setUser(data);
-  });
+  useEffect(() => {
+    api.users.getById(userId).then((data) => setUser(data));
+  }, []);
 
   const handleUsers = () => {
-    history.push('/users');
+    history.push(`/users/${userId}/edit`);
   };
 
   if (user) {
@@ -30,7 +30,7 @@ const UserPage = () => {
             handleUsers();
           }}
         >
-          Все Пользователи
+          Изменить
         </button>
       </div>
     );
@@ -38,6 +38,8 @@ const UserPage = () => {
   return 'Loading...';
 };
 
-UserPage.propTypes = {};
+UserPage.propTypes = {
+  userId: PropTypes.string.isRequired,
+};
 
 export default UserPage;
