@@ -9,6 +9,7 @@ const TextField = ({
   placeholder,
   onChange,
   error,
+  ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,6 +35,7 @@ const TextField = ({
           onChange={handleChange}
           className={getInputClasses()}
           placeholder={placeholder}
+          {...rest}
         />
         {type === 'password' && (
           <button
@@ -62,4 +64,4 @@ TextField.propTypes = {
   placeholder: PropTypes.string,
 };
 
-export default TextField;
+export default React.memo(TextField);

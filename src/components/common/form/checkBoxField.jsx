@@ -33,10 +33,7 @@ CheckBoxField.propTypes = {
   value: PropTypes.bool,
   onChange: PropTypes.func,
   error: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 export default CheckBoxField;

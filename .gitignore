@@ -25,3 +25,5 @@ yarn-error.log*
 .idea
 .eslintrc.json
 prettier.config.js
+!/src/api/fake.api/.eslintrc.json
+!/.eslintrc.js
