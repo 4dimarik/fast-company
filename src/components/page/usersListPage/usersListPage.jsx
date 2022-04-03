@@ -8,6 +8,7 @@ import SearchStatus from '../../ui/searchStatus';
 import UsersTable from '../../ui/usersTable';
 import '@fortawesome/fontawesome-free/css/all.css';
 import TextField from '../../common/form/textField';
+import { useUsers } from '../../../hooks/useUsers';
 
 const UsersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,22 +18,27 @@ const UsersListPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const pageSize = 8;
+  const { users } = useUsers();
+  // const [users, setUsers] = useState();
 
-  const [users, setUsers] = useState();
+  // useEffect(() => {
+  //   api.users.fetchAll().then((data) => setUsers(data));
+  // }, []);
 
-  useEffect(() => {
-    api.users.fetchAll().then((data) => setUsers(data));
-  }, []);
-
-  const handleDelete = (id) => {
-    setUsers((prevState) => prevState.filter((user) => user._id !== id));
+  const handleDelete = (userId) => {
+    // setUsers((prevState) => prevState.filter((user) => user._id !== id));
+    console.log(userId);
   };
   const handleToggleBookmark = (id) => {
-    setUsers((prevState) =>
-      prevState.map((user) =>
-        user._id !== id ? user : { ...user, bookmark: !user.bookmark }
-      )
+    const newArray = users.map((user) =>
+      user._id !== id ? user : { ...user, bookmark: !user.bookmark },
     );
+    // setUsers((prevState) =>
+    //   prevState.map((user) =>
+    //     user._id !== id ? user : { ...user, bookmark: !user.bookmark },
+    //   ),
+    // );
+    console.log(newArray);
   };
 
   const handleSearchQuery = ({ target }) => {
@@ -62,7 +68,7 @@ const UsersListPage = () => {
   if (users) {
     const filteredUsers = searchQuery
       ? users.filter((user) =>
-          user.name.toLowerCase().includes(searchQuery.trim().toLowerCase())
+          user.name.toLowerCase().includes(searchQuery.trim().toLowerCase()),
         )
       : selectedProf
       ? users.filter((user) => user.profession.name === selectedProf?.name)

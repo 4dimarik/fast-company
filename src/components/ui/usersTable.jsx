@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Table from '../common/table';
 import Bookmark from '../common/bookmark';
 import Qualities from './qualities';
+import Profession from './profession';
 
 const UsersTable = ({
   users,
@@ -35,10 +36,16 @@ const UsersTable = ({
       Удалить
     </button>
   );
+  const renderProfessionComponent = (user) => (
+    <Profession id={user.profession} />
+  );
   const columns = {
     name: { name: 'Имя', component: renderLinkComponent },
     qualities: { name: 'Качества', component: renderQualitiesListComponent },
-    professions: { path: 'profession.name', name: 'Качества' },
+    professions: {
+      name: 'Профессия',
+      component: renderProfessionComponent,
+    },
     completedMeetings: { path: 'completedMeetings', name: 'Встретился, раз' },
     rate: { path: 'rate', name: 'Оценка' },
     bookmark: {
