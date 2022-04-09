@@ -8,7 +8,7 @@ const useMockData = () => {
   const statusConsts = {
     idle: 'Not Started',
     pending: 'In Process',
-    successed: 'Ready',
+    succeed: 'Ready',
     error: 'Error occured',
   };
 
@@ -29,13 +29,14 @@ const useMockData = () => {
       setProgress(() => newProgress);
     }
     if (newProgress === 100) {
-      setStatus(statusConsts.successed);
+      setStatus(statusConsts.succeed);
     }
   };
 
   useEffect(() => {
     updateProgress();
   }, [count]);
+
   async function initialize() {
     try {
       for (const prof of professions) {
