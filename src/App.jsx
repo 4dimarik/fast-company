@@ -15,9 +15,9 @@ const App = () => {
       <Switch>
         <QualitiesProvider>
           <ProfessionProvider>
-            <Route exact path="/users/:userId?/:edit?" component={Users} />
+            <Route path="/users/:userId?/:edit?" component={Users} />
             <Route path="/login/:type?" component={Login} />
-            <Route path="/" component={MainPage} />
+            <Route path="/" exact component={MainPage} />
             <Redirect to="/" />
           </ProfessionProvider>
         </QualitiesProvider>
