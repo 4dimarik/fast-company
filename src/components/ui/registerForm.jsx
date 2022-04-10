@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import validator from '../../utils/validator';
 import TextField from '../common/form/textField';
-import api from '../../api';
 import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import CheckBoxField from '../common/form/checkBoxField';
-
+import { useQualities } from '../../hooks/useQualities';
+import { useProfessions } from '../../hooks/useProfessions';
+import { useAuth } from '../../hooks/useAuth';
+import { useHistory } from 'react-router-dom';
 const RegisterForm = () => {
+  const history = useHistory();
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -16,8 +19,17 @@ const RegisterForm = () => {
     qualities: [],
     licence: false,
   });
-  const [qualities, setQualities] = useState({});
-  const [professions, setProfessions] = useState();
+  const { singUp } = useAuth();
+  const { qualities } = useQualities();
+  const qualitiesList = qualities.map((q) => ({
+    label: q.name,
+    value: q._id,
+  }));
+  const { professions } = useProfessions();
+  const professionsList = professions.map((p) => ({
+    label: p.name,
+    value: p._id,
+  }));
   const [errors, setErrors] = useState({});
 
   const handleChange = (target) => {
@@ -67,14 +79,17 @@ const RegisterForm = () => {
     validate();
   }, [data]);
 
-  useEffect(() => {
-    api.professions.fetchAll().then((data) => setProfessions(data));
-    api.qualities.fetchAll().then((data) => setQualities(data));
-  }, []);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    validate();
+    const isValid = validate();
+    if (!isValid) return;
+    const newData = { ...data, qualities: data.qualities.map((q) => q.value) };
+    try {
+      await singUp(newData);
+      history.push('/');
+    } catch (error) {
+      setErrors(error);
+    }
   };
 
   return (
@@ -103,7 +118,7 @@ const RegisterForm = () => {
         value={data.profession}
         error={errors.profession}
         defaultOption="Choose..."
-        options={professions}
+        options={professionsList}
         onChange={handleChange}
       />
       <RadioField
@@ -118,7 +133,7 @@ const RegisterForm = () => {
         label="Выберите ваш пол "
       />
       <MultiSelectField
-        options={qualities}
+        options={qualitiesList}
         onChange={handleChange}
         defaultValue={data.qualities}
         name="qualities"
