@@ -86,6 +86,8 @@ const AuthProvider = ({ children }) => {
             email: 'Пользователь с таким Email не зарегистрирован',
           };
           throw errorObject;
+        } else {
+          toast('Слишком много попыток входа, попробуйте позже');
         }
       }
     }
