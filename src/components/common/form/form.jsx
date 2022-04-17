@@ -58,10 +58,11 @@ const FormComponent = ({
           'Name property is required for field component, ' +
             JSON.stringify(child.props),
         );
+
       config = {
         ...child.props,
         onChange: handleChange,
-        value: data[child.props.name],
+        value: child.props?.value ?? data[child.props.name],
         error: errors[child.props.name],
         onKeyDown: handleKeyDown,
       };
