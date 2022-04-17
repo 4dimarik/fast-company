@@ -7,14 +7,30 @@ import SelectField from '../../common/form/selectField';
 import RadioField from '../../common/form/radioField';
 import MultiSelectField from '../../common/form/multiSelectField';
 import BackHistoryButton from '../../common/backButton';
+import { useAuth } from '../../../hooks/useAuth';
+import { useQualities } from '../../../hooks/useQualities';
+import { useProfessions } from '../../../hooks/useProfessions';
 const EditUserPage = () => {
   const { userId } = useParams();
   const history = useHistory();
-  const [isLoading, setIsLoading] = useState(false);
+  const { currentUser } = useAuth();
+  console.log(currentUser);
+
+  // const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState();
 
-  const [professions, setProfession] = useState([]);
-  const [qualities, setQualities] = useState({});
+  // const [professions, setProfession] = useState([]);
+  // const [qualities, setQualities] = useState({});
+  const { qualities } = useQualities();
+  const qualitiesList = qualities.map((q) => ({
+    label: q.name,
+    value: q._id,
+  }));
+  const { professions } = useProfessions();
+  const professionsList = professions.map((p) => ({
+    label: p.name,
+    value: p._id,
+  }));
 
   useEffect(() => {
     setIsLoading(true);

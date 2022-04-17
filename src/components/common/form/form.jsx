@@ -7,6 +7,7 @@ const FormComponent = ({
   validatorConfig,
   defaultData,
   onSubmit,
+  isClear = false,
 }) => {
   const [data, setData] = useState(defaultData || {});
   const [errors, setErrors] = useState({});
@@ -20,13 +21,14 @@ const FormComponent = ({
       setErrors(errors);
       return Object.keys(errors).length === 0;
     },
-    [validatorConfig, setErrors],
+    [validatorConfig],
   );
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate(data);
     if (!isValid) return;
+    if (isClear) setData({});
     onSubmit(data);
   };
 
@@ -84,6 +86,7 @@ FormComponent.propTypes = {
   validatorConfig: PropTypes.object,
   defaultData: PropTypes.object,
   onSubmit: PropTypes.func,
+  isClear: PropTypes.bool,
 };
 
 export default FormComponent;

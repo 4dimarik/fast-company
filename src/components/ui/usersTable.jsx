@@ -6,13 +6,7 @@ import Bookmark from '../common/bookmark';
 import Qualities from './qualities';
 import Profession from './profession';
 
-const UsersTable = ({
-  users,
-  onSort,
-  selectedSort,
-  onToggleBookMark,
-  onDelete,
-}) => {
+const UsersTable = ({ users, onSort, selectedSort, onToggleBookMark }) => {
   const renderBookmarkComponent = (user) => (
     <Bookmark
       status={user.bookmark}
@@ -26,15 +20,6 @@ const UsersTable = ({
     <Link className="nav-link" to={`/users/${user._id}`}>
       {user.name}
     </Link>
-  );
-  const renderDeleteBtnComponent = (user) => (
-    <button
-      type="button"
-      className="btn btn-sm btn-danger"
-      onClick={() => onDelete(user._id)}
-    >
-      Удалить
-    </button>
   );
   const renderProfessionComponent = (user) => (
     <Profession id={user.profession} />
@@ -53,9 +38,6 @@ const UsersTable = ({
       name: 'Избранное',
       component: renderBookmarkComponent,
     },
-    delete: {
-      component: renderDeleteBtnComponent,
-    },
   };
   return (
     <Table
@@ -72,7 +54,6 @@ UsersTable.propTypes = {
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
   onToggleBookMark: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
 export default UsersTable;

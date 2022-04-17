@@ -16,7 +16,7 @@ const TextAreaField = ({ label, name, value, onChange, error }) => {
         <textarea
           id={name}
           name={name}
-          value={value}
+          value={value || ''}
           onChange={handleChange}
           className={getInputClasses()}
         />
