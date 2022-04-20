@@ -58,8 +58,8 @@ const EditUserPage = () => {
       : [];
   };
 
-  const handleSubmit = (data) => {
-    updateUserData({
+  const handleSubmit = async (data) => {
+    await updateUserData({
       ...data,
       qualities: data.qualities.map((q) => q.value),
     });
